@@ -1,3 +1,22 @@
+CREATE INDEX ON :Candidate(feccandid)
+
+USING PERIODIC COMMIT 500
+LOAD CSV FROM 'file:///Users/thomasglickson/Documents/CampaignFin16/cands16.txt' AS line
+CREATE (:Candidate { 
+ cycle: line[0], 
+ feccandid: line[1],
+ cid: line[2], 
+ firstlastp:line[3], 
+ party:line[4],
+ distidrunfor:line[5],
+ distidcurr:line[6],
+ currcand:line[7],
+ cyclecand:line[8],
+ crpico:line[9],
+ recipcode:line[10],
+ nopacs:line[11]
+})
+
 CREATE INDEX ON :Committee(cmteid)
 
 USING PERIODIC COMMIT 500
