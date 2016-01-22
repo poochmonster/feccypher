@@ -1,0 +1,79 @@
+CREATE INDEX ON :Committee(cmteid)
+
+USING PERIODIC COMMIT 500
+LOAD CSV FROM 'file:///Users/thomasglickson/Documents/CampaignFin16/cmtes16.txt' AS line
+CREATE (:Committee { 
+ cycle: line[0], 
+ cmteid: line[1], 
+ pacshort: line[2], 
+ affiliate:line[3], 
+ ultorg:line[4],
+ recipid:line[5],
+ recipcode:line[6],
+ feccandid:line[7],
+ party:line[8],
+ primcode:line[9],
+ source:line[10],
+ foreign:line[11],
+ active:line[12] 
+})
+
+USING PERIODIC COMMIT 500
+LOAD CSV FROM 'file:///Users/thomasglickson/Documents/CampaignFin16/pac_other16.txt' AS line
+MATCH (committeeA:Committee { cmteid: line[14]}), (committeeB:Committee { cmteid: line[2]}) WHERE LEFT(line[21],1) = "1"
+CREATE (committeeA)-[:TRANSACTION { 
+ cycle: line[0], 
+ fecrecno: line[1], 
+ filerid: line[2], 
+ donorcmte:line[3], 
+ contriblendtrans:line[4],
+ city:line[5],
+ state:line[6],
+ zip:line[7],
+ fecoccemp:line[8],
+ primcode:line[9],
+ date:line[10],
+ amount:toInt(line[11]),
+ recipid:line[12],
+ party:line[13],
+ otherid:line[14],
+ recipcode:line[15],
+ recipprimcode:line[16],
+ amend:line[17],
+ report:line[18],
+ pg:line[19],
+ microfilm:line[20],
+ type:line[21],
+ realcode:line[22],
+ source:line[23]
+}]->(committeeB)
+
+USING PERIODIC COMMIT 500
+LOAD CSV FROM 'file:///Users/thomasglickson/Documents/CampaignFin16/pac_other16.txt' AS line
+MATCH (committeeA:Committee { cmteid: line[2]}), (committeeB:Committee { cmteid: line[14]}) WHERE LEFT(line[21],1) = "2"
+CREATE (committeeA)-[:TRANSACTION { 
+ cycle: line[0], 
+ fecrecno: line[1], 
+ filerid: line[2], 
+ donorcmte:line[3], 
+ contriblendtrans:line[4],
+ city:line[5],
+ state:line[6],
+ zip:line[7],
+ fecoccemp:line[8],
+ primcode:line[9],
+ date:line[10],
+ amount:toInt(line[11]),
+ recipid:line[12],
+ party:line[13],
+ otherid:line[14],
+ recipcode:line[15],
+ recipprimcode:line[16],
+ amend:line[17],
+ report:line[18],
+ pg:line[19],
+ microfilm:line[20],
+ type:line[21],
+ realcode:line[22],
+ source:line[23]
+}]->(committeeB)
