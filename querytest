@@ -18,7 +18,6 @@ CREATE (:Candidate {
 })
 
 CREATE INDEX ON :Committee(cmteid)
-
 USING PERIODIC COMMIT 500
 LOAD CSV FROM 'file:///Users/thomasglickson/Documents/CampaignFin16/cmtes16.txt' AS line
 CREATE (:Committee { 
